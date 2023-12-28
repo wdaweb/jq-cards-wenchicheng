@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/cards/favicon-32x32.png">
+  <title>/ᐠ. .ᐟ\ Mippy Game ~♬♪܀⊹</title>
+  <style>
+    @font-face {
+      font-family: SweiGothicCJKtc-Regular;
+      src: url(https://cdn.jsdelivr.net/gh/max32002/swei-gothic@2.129/WebFont/CJK%20TC/SweiGothicCJKtc-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/swei-gothic@2.129/WebFont/CJK%20TC/SweiGothicCJKtc-Regular.woff) format("woff");
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: 0.5s;
+    }
+
+    body {
+      background-color: #f6ebd7;
+      font-family: 'Noto Sans', '微軟正黑體';
+    }
+
+    #startScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(251, 244, 238, 0.9);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      /* 顯示在上方 */
+      transition: transform 0.5s;
+    }
+
+    #startButton {
+      width: 240px;
+      height: 80px;
+      background: #EBD4B7;
+      background: linear-gradient(0deg, #EBD4B7 0%, #f1e5d6 100%);
+      border: none;
+      font-size: 2rem;
+      color: #34190359;
+      font-weight: 900;
+      /* background: transparent; */
+      border-radius: 5px;
+      padding: 10px 25px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      position: relative;
+      display: inline-block;
+      box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+    }
+
+
+    #startButton:before {
+      height: 0%;
+      width: 2px;
+    }
+
+    #startButton:hover {
+      box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .2),
+        -4px -4px 6px 0 rgba(116, 125, 136, .2),
+        inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+        inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+      color: #775d4b;
+    }
+
+    .intro {
+      width: 50%;
+      font-size: 1.5rem;
+      line-height: 3rem;
+      margin: 40px;
+    }
+
+    .intro p {
+      font-size: 1rem;
+      letter-spacing: 3;
+      color: #717171;
+    }
+
+
+
+
+    .container {
+      width: 100%;
+      margin: auto;
+      padding-top: 20px;
+    }
+
+    .top {
+      width: 100%;
+      height: 100px;
+      background: url("./cards/logo.png") no-repeat center/contain;
+    }
+
+    .footer {
+      text-align: center;
+      margin: 20px 0 0 0;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      width: 140px;
+      height: 140px;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    .card-front {
+      width: 100%;
+      height: 100%;
+      background-image: url(./cards/1fr.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      backface-visibility: hidden;
+    }
+
+    .card-back {
+      width: 100%;
+      height: 100%;
+      background-image: url(./cards/back_round.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+    }
+
+    .card-close {
+      /* 一開始卡片為翻背面的狀態，所以要加此class */
+      transform: rotateY(180deg);
+    }
+
+    .text {
+      font-weight: 400;
+      letter-spacing: 1.5;
+      font-size: 1rem;
+      line-height: 28px;
+    }
+
+    .title {
+      font-weight: 600;
+      letter-spacing: 1.2;
+      font-size: 1rem;
+      line-height: 32px;
+    }
+
+    @media (min-width: 576px) {
+      #game {
+        padding: 20px;
+      }
+
+      .container {
+        width: 90%;
+        padding: 0;
+      }
+
+      .top {
+        height: 112px;
+      }
+
+      .card {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        width: 85%;
+      }
+
+      .card {
+        width: 200px;
+        height: 200px;
+      }
+    }
+
+
+    @media (min-width: 992px) {
+      .container {
+        width: 85%;
+        padding: 20px 0;
+      }
+
+      .top {
+        height: 140px;
+      }
+
+      .row {
+        margin: 0;
+      }
+
+      .card {
+        width: 200px;
+        height: 200px;
+        padding: 4px;
+      }
+    }
+
+
+    @media (min-width: 1200px) {
+      .container {
+        width: 85%;
+        padding: 24px 0 0 0;
+      }
+
+      .row {
+        margin: 0;
+      }
+
+      .card {
+        width: 250px;
+        height: 250px;
+        padding: 4px;
+      }
+
+      .top {
+        height: 200px;
+      }
+
+      #startScreen.hide {
+        transform: translateY(-100%);
+      }
+
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <!-- <div class="container">
+    <div class="top"></div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="card">
+        <div class="card-front"></div>
+        <div class="card-back"></div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="footer">
+      <div class="copyright">&copy;2023 wenchicheng</div>
+    </div>
+  </div> -->
+
+  <!-- intro --------------------------- -->
+
+  <div id="startScreen">
+    <div class="intro">Mippy 喵皮翻翻樂 ✨<br>
+      一款超萌的翻牌遊戲！透過配對喵星人的表情，感受喵喵不同的聲音。每種貓咪的聲音都有獨特的涵義，一邊找出一樣最可愛的卡片，共感各種喵的感受，開啟喵的歷險吧~~ 🐾
+      <p style="color: #cfbca6;">ılıılıılıılıılıılı</p>
+      <p>🔊喵皮小提醒：遊戲有音效♬，開啟聲音會有更好的遊戲體驗唷！</p>
+    </div>
+    <button id="startButton">開始遊戲</button>
+  </div>
+
+  <div id="game"></div>
+  <audio src="./mp3/1-hello.wav" autoplay></audio>
+
+  <!-- 音檔 -------------------------------------------->
+  <audio id="hello" preload="auto">
+    <source src="./mp3/1-hello.wav" type="audio/wav">
+  </audio>
+  <audio id="scare" preload="auto">
+    <source src="./mp3/2-scare.wav" type="audio/wav">
+  </audio>
+  <audio id="hissing" preload="auto">
+    <source src="./mp3/3-hissing.mp3" type="audio/mp3">
+  </audio>
+  <audio id="meow" preload="auto">
+    <source src="./mp3/4-meow.mp3" type="audio/mp3">
+  </audio>
+  <audio id="growl" preload="auto">
+    <source src="./mp3/5-growl.mp3" type="audio/mp3">
+  </audio>
+  <audio id="purr" preload="auto">
+    <source src="./mp3/6-purr.mp3" type="audio/mp3">
+  </audio>
+
+
+
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'
+    integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=='
+    crossorigin='anonymous'></script>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.all.min.js'
+    integrity='sha512-1SVc8wK7Y/XRAKRKfP09ILQmzJGwqq6m66x6mWa7r36j+/fa+3kz46s8kvELsGc52yo1as48nneFic7BZKMu8Q=='
+    crossorigin='anonymous'></script>
+
+
+  <script>
+
+    // 開始遊戲按鈕
+    $('#startButton').on('click', function () {
+      $('#startScreen').hide();
+      $('#game').show();
+    });
+
+    // 清空 #game 的內容
+    $('#game').empty();
+
+    // 添加頂部
+    $('#game').append(`
+  <div class="container">
+    <div class="top"></div>
+  </div>
+`);
+
+    // 不重複部分結束，開始循環生成卡片部分
+    $('#game').append(`
+  <div class="container">
+    <div class="row">
+  </div>
+</div>
+`);
+
+    // 生成卡片
+    for (let i = 0; i < 12; i++) {
+      $('.row').append(`
+    <div class="card card-close">
+      <div class="card-front"></div>
+      <div class="card-back"></div>
+    </div>
+  `);
+    }
+
+    // 循環生成卡片部分結束，添加底部
+    $('#game').append(`
+  <div class="container">
+    <div class="footer">
+      <div class="copyright">&copy;2023 wenchicheng</div>
+    </div>
+  </div>
+`);
+
+    // -------------------------------
+
+    // 決定每張的數字
+    $('.card').each(function (index) {
+      const number = index % 6 + 1
+      console.log(index, number)
+      $(this).find('.card-front').css('background-image', `url(./cards/${number}fr.png)`)
+      $(this).attr('data-number', number)
+    })
+
+    // 打亂
+    for (let i = 0; i < 20; i++) {
+      const randomA = Math.round(Math.random() * 15)
+      const randomB = Math.round(Math.random() * 15)
+      $('.card').eq(randomA).insertAfter($('.card').eq(randomB))
+    }
+
+    // 翻牌
+    $('#game').on('click', '.card', function () {
+      if (
+        // .card 沒有 .card-close 代表被翻開
+        // 如果已翻開數小於兩張
+        $('.card:not(.card-close)').length < 2 &&
+        // 且這張牌還沒翻開
+        $(this).hasClass('card-close') &&
+        // 這張牌還沒配對
+        !$(this).hasClass('card-ok')
+      ) {
+        $(this).removeClass('card-close')
+      }
+
+      // 如果翻開兩張了
+      if ($('.card:not(.card-close)').length === 2) {
+        // 如果兩張一樣
+        if (
+          $('.card:not(.card-close)').eq(0).attr('data-number') ===
+          $('.card:not(.card-close)').eq(1).attr('data-number')
+        ) {
+          const cardNumber = $('.card:not(.card-close)').eq(0).attr('data-number')
+          $('.card:not(.card-close)').addClass('card-ok')
+          $('.card:not(.card-close)').fadeTo(1000, 0)
+
+          // 配對完成後顯示說明視窗
+          // text:只能放文字，html：可以放語法
+          setTimeout(function () {
+            switch (cardNumber) {
+              case '1':
+                Swal.fire({
+                  title: "嗨~",
+                  html:
+                    `<p class="title">
+                      短音「喵！」<br>
+                    </p>
+                    <p class="text">
+                      跟你打招呼，問候像是「嗨！」的意思<br>
+                    </p>
+                    
+                  `,
+                  imageUrl: "./cards/1fr.png",
+                  imageWidth: 300,
+                  imageHeight: 300,
+                  imageAlt: "~(=^‥^)ノ",
+                  confirmButtonColor: '#B07736',
+                  didOpen: () => {
+                    // 配對成功跳出通知時播放音檔 1
+                    document.getElementById('hello').play();
+                  }
+                });
+                break;
+              case '2':
+                Swal.fire({
+                  title: "救命啊！！！",
+                  html:
+                    `<p class="title">
+                      喵~~~~（大聲尖叫）
+                    </p>
+                      「啊啊！！好可怕！！！」<br>
+                      「不要啊～～」受到嚴重威脅的求救訊號
+                    </p>
+                  `,
+                  imageUrl: "./cards/2fr.png",
+                  imageWidth: 300,
+                  imageHeight: 300,
+                  imageAlt: "<(ΦωΦ)>",
+                  confirmButtonColor: '#B07736',
+                  didOpen: () => {
+                    // 配對成功跳出通知時播放音檔 2
+                    document.getElementById('scare').play();
+                  }
+                });
+                break;
+              case '3':
+                Swal.fire({
+                  title: "害怕中~生人勿近",
+                  html:
+                    `<p class="title">
+                      哈___斯___
+                    </p>
+                    <p class="text">
+                      「這是哪裡？好可怕！」<br>
+                      「你是誰！？我不認識你！」<br>
+                      看到陌生的人、動物或環境時，<br>
+                      貓咪內心害怕、有點不安的時候<br>
+                    </p>
+                  `,
+                  imageUrl: "./cards/3fr.png",
+                  imageWidth: 300,
+                  imageHeight: 300,
+                  imageAlt: "(=ＴェＴ=)",
+                  confirmButtonColor: '#B07736',
+                  didOpen: () => {
+                    // 配對成功跳出通知時播放音檔 3
+                    document.getElementById('hissing').play();
+                  }
+                });
+                break;
+              case '4':
+                Swal.fire({
+                  title: "陪我玩~~",
+                  html:
+                    `<p class="title">
+                      長音「喵～喵～」
+                    </p>
+                    <p class="text">
+                      通常是表達需求，想讓我們陪牠玩<br>
+                      幫牠開門，或是餵牠吃飯
+                    </p>
+                  `,
+                  imageUrl: "./cards/4fr.png",
+                  imageWidth: 300,
+                  imageHeight: 300,
+                  imageAlt: "(=^‥^=)",
+                  confirmButtonColor: '#B07736',
+                  didOpen: () => {
+                    // 配對成功跳出通知時播放音檔 4
+                    document.getElementById('meow').play();
+                  }
+                });
+                break;
+              case '5':
+                Swal.fire({
+                  title: "敖——嗚——",
+                  html:
+                    `<p class="title">
+                      別過來喔！<br>
+                    </p>
+                    <p class="text">
+                      「我要揍你了！」<br>
+                      「我真的會咬你喔！」
+                      
+                    </p>
+                  `,
+                  imageUrl: "./cards/5fr.png",
+                  imageWidth: 300,
+                  imageHeight: 300,
+                  imageAlt: "(=｀ェ´=)",
+                  confirmButtonColor: '#B07736',
+                  didOpen: () => {
+                    // 配對成功跳出通知時播放音檔 5
+                    document.getElementById('growl').play();
+                  }
+                });
+                break;
+              case '6':
+                Swal.fire({
+                  title: "好滿足~~",
+                  html:
+                    `<p class="title">
+                      呼嚕聲<br>
+                    </p>
+                    <p class="text">
+                      貓多半處於舒服放鬆，<br>
+                      或身心感到滿足時的狀態
+                    </p>
+                  `,
+                  imageUrl: "./cards/6fr.png",
+                  imageWidth: 300,
+                  imageHeight: 300,
+                  imageAlt: "ヽ(=^･ω･^=)丿",
+                  confirmButtonColor: '#B07736',
+                  didOpen: () => {
+                    // 配對成功跳出通知時播放音檔 6
+                    document.getElementById('purr').play();
+                  }
+                });
+                break;
+              default:
+                alert('相同卡片配對成功！');
+            }
+          }, 1000);
+        }
+
+        setTimeout(function () {
+          // 翻回來
+          $('.card:not(.card-close)').addClass('card-close')
+          // 過關判斷
+          if ($('.card-ok').length === $('.card').length) {
+            setTimeout(function () {
+              Swal.fire({
+                title: "恭喜！更了解喵星人啦~",
+                width: 600,
+                padding: "3em",
+                color: "#fff",
+                imageUrl: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2dwdmZ5N3g4OWRzdXVmZjUwMWV1YWw3aGpkZGhidjAwMzhid2U5ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QyJ0We4GHpjBa7PvKL/giphy.gif",
+                imageWidth: 480,
+                imageHeight: 392,
+                imageAlt: "Custom image",
+                background: "#fff url(https://free-paper-texture.com/p/p0297/p0297_m.jpg)",
+                backdrop: ` rgba(188,159,119,0.4)`,
+                confirmButtonColor: '#B07736',
+                confirmButtonText: "再玩一次",
+
+              }).then(function (result) {
+
+                // 重新整理網頁
+                location.reload();
+              })
+            }, 3000)
+          }
+        }
+          , 1000)
+      }
+    })
+  </script>
+
+
+</body>
+
+</html>
